@@ -76,3 +76,6 @@ unlinked_spec.ds
 
 # code coverage
 coverage
+
+# FVM Version Cache
+.fvm/
