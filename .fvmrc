@@ -1,5 +1,5 @@
 {
-  "flutter": "3.27.4",
+  "flutter": "stable",
   "flavors": {
     "development": "stable",
     "production": "3.27.4"
