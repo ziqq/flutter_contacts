@@ -37,7 +37,7 @@ Set the `NSContactsUsageDescription` in your `Info.plist` file.
 ```
 
 And add PermissionGroup.contacts in your Podfile
-```Podfile
+```Ruby
 target.build_configurations.each do |config|
     config.build_settings
     ['GCC_PREPROCESSOR_DEFINITIONS'] ||= [
@@ -125,7 +125,7 @@ Uint8List avatar;
 
 Contributions are welcome! If you find a bug or want a feature, please fill an issue.
 
-If you want to contribute code please create a pull request under the main branch.
+If you want to contribute code please create a pull request under the master branch.
 
 
 ## Credits
