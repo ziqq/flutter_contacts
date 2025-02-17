@@ -1,38 +1,50 @@
-group 'flutter.plugins.contactsservice.contactsservice'
-version '1.0-SNAPSHOT'
+plugins {
+    id "com.android.library"
+    id "kotlin-android"
+}
 
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.1'
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader("UTF-8") { reader ->
+        localProperties.load(reader)
     }
 }
 
-rootProject.allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
+def flutterVersionCode = localProperties.getProperty("flutter.versionCode")
+if (flutterVersionCode == null) {
+    flutterVersionCode = "1"
 }
 
-apply plugin: 'com.android.library'
+def flutterVersionName = localProperties.getProperty("flutter.versionName")
+if (flutterVersionName == null) {
+    flutterVersionName = "1.0"
+}
 
 android {
-    compileSdkVersion 30
+    namespace 'flutter.plugins.contactsservice.contactsservice'
+    compileSdkVersion flutter.compileSdkVersion
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion flutter.minSdkVersion
+        minSdkVersion flutter.minSdkVersion
+        targetSdkVersion flutter.targetSdkVersion
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
-    lintOptions {
-        disable 'InvalidPackage'
     }
 }
 
@@ -40,3 +52,48 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     testImplementation 'com.google.truth:truth:1.0'
 }
+
+flutter {
+    source = "../.."
+}
+
+
+// buildscript {
+//     repositories {
+//         google()
+//         mavenCentral()
+//     }
+
+//     dependencies {
+//         classpath 'com.android.tools.build:gradle:4.0.1'
+//     }
+// }
+
+// rootProject.allprojects {
+//     repositories {
+//         google()
+//         mavenCentral()
+//     }
+// }
+
+// apply plugin: 'com.android.library'
+
+// android {
+//     compileSdkVersion 30
+
+//     defaultConfig {
+//         minSdkVersion 16
+//         targetSdkVersion 30
+//         versionCode 1
+//         versionName "1.0"
+//         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+//     }
+//     lintOptions {
+//         disable 'InvalidPackage'
+//     }
+// }
+
+// dependencies {
+//     testImplementation 'junit:junit:4.12'
+//     testImplementation 'com.google.truth:truth:1.0'
+// }

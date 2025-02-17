@@ -41,7 +41,7 @@ import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry;
-import io.flutter.plugin.common.PluginRegistry.Registrar;
+// import io.flutter.plugin.common.PluginRegistry.Registrar;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.provider.ContactsContract.CommonDataKinds;
@@ -66,15 +66,15 @@ public class ContactsServicePlugin implements MethodCallHandler, FlutterPlugin, 
   private final ExecutorService executor =
           new ThreadPoolExecutor(0, 10, 60, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(1000));
 
-  private void initDelegateWithRegister(Registrar registrar) {
+  /* private void initDelegateWithRegister(Registrar registrar) {
     this.delegate = new ContactServiceDelegateOld(registrar);
-  }
+  } */
 
-  public static void registerWith(Registrar registrar) {
+  /* public static void registerWith(Registrar registrar) {
     ContactsServicePlugin instance = new ContactsServicePlugin();
     instance.initInstance(registrar.messenger(), registrar.context());
     instance.initDelegateWithRegister(registrar);
-  }
+  } */
 
   private void initInstance(BinaryMessenger messenger, Context context) {
     methodChannel = new MethodChannel(messenger, "github.com/clovisnicolas/flutter_contacts");
@@ -187,7 +187,7 @@ public class ContactsServicePlugin implements MethodCallHandler, FlutterPlugin, 
                   Phone.NUMBER,
                   Phone.TYPE,
                   Phone.LABEL,
-                  Email.DATA,
+                  // Email.DATA,
                   Email.ADDRESS,
                   Email.TYPE,
                   Email.LABEL,
@@ -287,15 +287,18 @@ public class ContactsServicePlugin implements MethodCallHandler, FlutterPlugin, 
           return true;
         }
         Uri contactUri = intent.getData();
-          if (intent != null){
         Cursor cursor = contentResolver.query(contactUri, null, null, null, null);
-        if (cursor.moveToFirst()) {
-          String id = contactUri.getLastPathSegment();
-          getContacts("openDeviceContactPicker", id, false, false, false, localizedLabels, this.result);
+        if (intent != null) {
+          if (cursor.moveToFirst()) {
+            String id = contactUri.getLastPathSegment();
+            getContacts("openDeviceContactPicker", id, false, false, false, localizedLabels, this.result);
+          } else {
+            Log.e(LOG_TAG, "onActivityResult - cursor.moveToFirst() returns false");
+            finishWithResult(FORM_OPERATION_CANCELED);
+          }
         } else {
-          Log.e(LOG_TAG, "onActivityResult - cursor.moveToFirst() returns false");
-          finishWithResult(FORM_OPERATION_CANCELED);
-        }}else{return true;}
+          return true;
+        }
         cursor.close();
         return true;
       }
@@ -364,7 +367,7 @@ public class ContactsServicePlugin implements MethodCallHandler, FlutterPlugin, 
       return null;
     }
   }
-  
+
     private void openDeviceContactPicker(Result result, boolean localizedLabels) {
       if (delegate != null) {
         delegate.setResult(result);
@@ -374,8 +377,8 @@ public class ContactsServicePlugin implements MethodCallHandler, FlutterPlugin, 
         result.success(FORM_COULD_NOT_BE_OPEN);
       }
   }
-  
-  private class ContactServiceDelegateOld extends BaseContactsServiceDelegate {
+
+  /* private class ContactServiceDelegateOld extends BaseContactsServiceDelegate {
     private final PluginRegistry.Registrar registrar;
 
     ContactServiceDelegateOld(PluginRegistry.Registrar registrar) {
@@ -391,7 +394,7 @@ public class ContactsServicePlugin implements MethodCallHandler, FlutterPlugin, 
         registrar.context().startActivity(intent);
       }
     }
-  }
+  } */
 
   private class ContactServiceDelegate extends BaseContactsServiceDelegate {
     private final Context context;
@@ -531,11 +534,17 @@ public class ContactsServicePlugin implements MethodCallHandler, FlutterPlugin, 
 
     ArrayList<String> contactIds = new ArrayList<>();
     Cursor phoneCursor = contentResolver.query(uri, projection, null, null, null);
-    while (phoneCursor != null && phoneCursor.moveToNext()){
-      contactIds.add(phoneCursor.getString(phoneCursor.getColumnIndex(BaseColumns._ID)));
+
+    while (phoneCursor != null && phoneCursor.moveToNext()) {
+      int idIndex = phoneCursor.getColumnIndex(BaseColumns._ID);
+      if (idIndex >= 0) {
+        contactIds.add(phoneCursor.getString(idIndex));
+      }
     }
-    if (phoneCursor!= null)
+
+    if (phoneCursor != null) {
       phoneCursor.close();
+    }
 
     if (!contactIds.isEmpty()) {
       String contactIdsListString = contactIds.toString().replace("[", "(").replace("]", ")");
@@ -685,7 +694,11 @@ public class ContactsServicePlugin implements MethodCallHandler, FlutterPlugin, 
   private static byte[] loadContactPhotoHighRes(final String identifier,
                                                 final boolean photoHighResolution, final ContentResolver contentResolver) {
     try {
-      final Uri uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, Long.parseLong(identifier));
+      if (identifier == null || identifier.isEmpty()) {
+        return null;
+      }
+      long contactId = Long.parseLong(identifier);
+      final Uri uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contactId);
       final InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(contentResolver, uri, photoHighResolution);
 
       if (input == null) return null;
