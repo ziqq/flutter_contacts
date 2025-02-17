@@ -68,6 +68,7 @@ void main() => group(
           expect(log, <Matcher>[
             isMethodCall('getAvatar', arguments: <String, dynamic>{
               'contact': contact.toMap(),
+              'identifier': contact.identifier,
               'photoHighResolution': true,
             })
           ]);
@@ -75,7 +76,7 @@ void main() => group(
           expect(avatar, Uint8List.fromList([0, 1, 2, 3]));
         });
 
-        group('ContactsService.getContactsForPhone', () {
+        group('getContactsForPhone', () {
           test('returns empty list when no phone number specified', () async {
             final contacts = await ContactsService.getContactsForPhone(null);
             expect(contacts.length, equals(0));
@@ -95,7 +96,7 @@ void main() => group(
           });
         });
 
-        group('ContactsService.getContactsForEmail', () {
+        group('getContactsForEmail', () {
           /// Just tests whether the plugin call is fired.
           test('returns contacts when email is supplied', () async {
             final contacts = await ContactsService.getContactsForEmail(
@@ -115,6 +116,7 @@ void main() => group(
           expect(log, <Matcher>[
             isMethodCall('getAvatar', arguments: <String, dynamic>{
               'contact': contact.toMap(),
+              'identifier': contact.identifier,
               'photoHighResolution': false,
             })
           ]);
@@ -167,20 +169,41 @@ void main() => group(
 
         test('should show contacts are equal', () {
           Contact contact1 = const Contact(
+            givenName: 'givenName',
+            familyName: 'familyName',
+            emails: [
+              Item(label: 'Home', value: 'home@example.com'),
+              Item(label: 'Work', value: 'work@example.com'),
+            ],
+          );
+          Contact contact2 = const Contact(
+            givenName: 'givenName',
+            familyName: 'familyName',
+            emails: [
+              Item(label: 'Work', value: 'work@example.com'),
+              Item(label: 'Home', value: 'home@example.com'),
+            ],
+          );
+          expect(contact1 == contact2, true);
+          expect(contact1.hashCode, contact2.hashCode);
+        });
+
+        test('should show contacts are not equal', () {
+          Contact contact1 = const Contact(
               givenName: 'givenName',
               familyName: 'familyName',
               emails: [
-                Item(label: 'Home', value: 'example@example.com'),
-                Item(label: 'Work', value: 'example2@example.com'),
+                Item(label: 'Home', value: 'home@example.com'),
+                Item(label: 'Work', value: 'work@example.com'),
               ]);
           Contact contact2 = const Contact(
               givenName: 'givenName',
               familyName: 'familyName',
               emails: [
-                Item(label: 'Work', value: 'example2@example.com'),
-                Item(label: 'Home', value: 'example@example.com'),
+                Item(label: 'Office', value: 'office@example.com'),
+                Item(label: 'Home', value: 'home@example.com'),
               ]);
-          expect(contact1 == contact2, true);
+          expect(contact1 == contact2, false);
           expect(contact1.hashCode, contact2.hashCode);
         });
 
