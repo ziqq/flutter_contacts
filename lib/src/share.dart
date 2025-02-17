@@ -1,11 +1,11 @@
 //import 'dart:io';
-//
+
 //import 'package:contacts_service/contacts_service.dart';
 //import 'package:flutter/material.dart';
 //import 'package:path_provider/path_provider.dart';
 //import 'package:share_extend/share_extend.dart';
-//
-///// Share a VCF Card from a Contact Object
+
+// Share a VCF Card from a Contact Object
 //void shareVCFCard(BuildContext context, {@required Contact contact}) async {
 //  final Contact _info = contact;
 //  if (_info != null)

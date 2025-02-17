@@ -1,0 +1,2 @@
+/Users/ziqq/Desktop/git/flutter/flutter_contacts/example/android/app/.cxx/Debug/w4p4o51e/arm64-v8a/CMakeFiles/edit_cache.dir
+/Users/ziqq/Desktop/git/flutter/flutter_contacts/example/android/app/.cxx/Debug/w4p4o51e/arm64-v8a/CMakeFiles/rebuild_cache.dir

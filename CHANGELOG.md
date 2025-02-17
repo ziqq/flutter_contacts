@@ -1,3 +1,9 @@
+## 0.7.0
+
+- **ADDED**: Bump gradle plugin version
+- **CHANGED**: Plugin architecture
+- **FIXED**: `getAvatar` for `iOS`
+
 ## [0.6.3] - September 21, 2021
 
 * Android: added method getContactsByEmail (@fjbatresv)
@@ -98,15 +104,15 @@
   * Only implemented for Android.
 
 ## [0.3.4] - September 21, 2019
-  
+
 * Fix Contact.java comparison to guard NPEs (@creativepsyco)
 
 ## [0.3.3] - September 12, 2019
-  
+
 * Example app, removed references to notes field removed in v0.3.1 (@lukasgit)
 
 ## [0.3.2] - September 10, 2019
-  
+
 * Fixed swift_version error (@adithyaxx)
 * Removed executable file attributes (@creativepsyco)
 * Removed references to notes field removed in v0.3.1 (@lukasgit)

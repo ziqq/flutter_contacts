@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "/Users/ziqq/fvm/versions/stable/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/ziqq/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/Users/ziqq/Desktop/git/flutter/flutter_contacts/example/android/app/.cxx/Debug/w4p4o51e/x86",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/ziqq/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/Users/ziqq/Desktop/git/flutter/flutter_contacts/example/android/app/.cxx/Debug/w4p4o51e/x86",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {}
+}
