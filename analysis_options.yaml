@@ -168,7 +168,7 @@ linter:
     unnecessary_statements: true
     unnecessary_string_escapes: true
     unnecessary_string_interpolations: true
-    unsafe_html: true
+    # unsafe_html: true Removed in Dart 3.7.0
     use_colored_box: true
     use_decorated_box: true
     use_full_hex_values_for_flutter_colors: true
@@ -235,7 +235,7 @@ linter:
     constant_identifier_names: false
 
     directives_ordering: true
-    package_api_docs: true
+    # package_api_docs: true Removed in Dart 3.7.0
     implementation_imports: true
     prefer_interpolation_to_compose_strings: true
     unnecessary_brace_in_string_interps: true
