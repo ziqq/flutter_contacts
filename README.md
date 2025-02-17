@@ -10,7 +10,7 @@
 A Flutter plugin to access and manage the device's contacts.
 
 
-## Usage
+## Installation
 
 To use this plugin, add `contacts_service` as a [dependency in your `pubspec.yaml` file](https://flutter.io/platform-plugins/).
 For example:
