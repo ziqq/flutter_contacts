@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:contacts_service/src/typedef.dart';
 import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
@@ -262,9 +263,10 @@ class Contact {
       prefix == other.prefix &&
       suffix == other.suffix &&
       birthday == other.birthday &&
-      listEquals(phones, other.phones) &&
-      listEquals(emails, other.emails) &&
-      listEquals(postalAddresses, other.postalAddresses);
+      const DeepCollectionEquality.unordered().equals(phones, other.phones) &&
+      const DeepCollectionEquality.unordered().equals(emails, other.emails) &&
+      const DeepCollectionEquality.unordered()
+          .equals(postalAddresses, other.postalAddresses);
 
   @override
   int get hashCode => Object.hashAll([
@@ -424,7 +426,7 @@ class Item {
       other is Item && label == other.label && value == other.value;
 
   @override
-  int get hashCode => Object.hash(label ?? '', value ?? '');
+  int get hashCode => Object.hash(label, value);
 
-  static JSON _toMap(Item i) => {'label': i.label, 'value': i.value};
+  static JSON _toMap(Item item) => {'label': item.label, 'value': item.value};
 }
